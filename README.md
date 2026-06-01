@@ -74,13 +74,14 @@ Três engines de TTS com interfaces unificadas. `SupertonicTTSEngine`, `StyleTTS
 
 Pipeline de carregamento de modelos GGUF: detecção de formato de chat, leitura de metadados e validação de templates.
 
-![LLM Loader](assets/llm_loader.png)
+![LLM Loader](<img width="1429" height="360" alt="llm_loader" src="https://github.com/user-attachments/assets/89b02d8d-8819-40d6-8869-2e47c1b6fbbb" />)
 
 ### LLM Inference — inferência e streaming
 
 Classe `AgentLenaInference` responsável por geração de texto, síntese em streaming e carregamento dinâmico do engine de TTS.
 
-![LLM Inference](assets/llm_inference.png)
+![LLM Inference](<img width="974" height="784" alt="llm_inference" src="https://github.com/user-attachments/assets/5174f979-3dd5-40c1-8e7e-a7f683d26e09" />)
+
 
 ---
 
@@ -94,11 +95,3 @@ Classe `AgentLenaInference` responsável por geração de texto, síntese em str
 | Avatares | Live2D Cubism SDK, VRM, Three.js (runtime JS) |
 | APIs | WorldTime, OpenWeather, TMDB, Wikipedia, Google Books, Cloudflare Workers AI |
 | Backend | Python 3.11 |
-
----
-
-## Contato
-
-Interessado em licenciar ou saber mais sobre o projeto?
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-contato-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/SEU_PERFIL)
