@@ -1,6 +1,6 @@
 # Castorp
 
-> Plataforma desktop de conversação com agentes de IA local, síntese de voz e avatares interativos.
+> Plataforma desktop de conversação com agentes de IA local, síntese de voz e avatares interativos — 100% privativa, com a maioria das funcionalidades rodando offline.
 
 [![Python](https://img.shields.io/badge/Python-3.11-3572A5?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![PySide6](https://img.shields.io/badge/PySide6-GUI-41CD52?style=flat-square&logo=qt&logoColor=white)](https://doc.qt.io/qtforpython)
@@ -11,72 +11,89 @@
 
 ## O que é o Castorp?
 
-Castorp é uma plataforma desktop para conversação com LLMs rodando **100% localmente**, combinada com síntese de voz em tempo real e avatares interativos em 2D, Live2D e VRM. A plataforma aceita a maioria dos modelos no formato GGUF e oferece controle completo sobre voz, aparência e comportamento do agente — sem dependência de nuvem para inferência.
+O Castorp é uma plataforma desktop de conversação com agentes de IA construída do zero em Python/PySide6. Toda a inferência de LLM, síntese de voz e renderização de avatar acontece localmente — sem nenhum dado enviado a serviços externos. APIs externas são usadas apenas para funcionalidades opcionais como clima, busca e geração de imagens.
 
 ---
 
 ## Demo
-> <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6a34eb57-b857-4631-a206-4504e4e122ea" />
-> 📺 [Assista ao vídeo completo no LinkedIn](https://linkedin.com/SEU_LINK_AQUI)
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6a34eb57-b857-4631-a206-4504e4e122ea" />
+
+Assista ao vídeo completo no Vimeo: https://vimeo.com/1197456048?fl=pl&fe=sh
 
 ---
 
 ## Funcionalidades
 
-- **LLM local via llama.cpp** — suporte à maioria dos modelos GGUF; memória persistente auto-incrementável pelo modelo e editável pelo usuário
-- **Síntese de voz (TTS)** — três engines: Supertonic 2, Kokoro e StyleTTS2; suporte a clonagem de voz e pipeline RVC aplicável a qualquer voz
-- **Avatares interativos** — 2D (imagens e GIFs), Live2D (hit areas, overlay, animações) e VRM 3D (lipsync, auto-blink, iluminação com HDR/EXR, arquivos GLB)
-- **Visão e OCR** — análise de imagens enviadas pelo usuário e capturas de tela automáticas via SmolVLM
-- **APIs externas integradas** — WorldTime, Wikipedia, Weather, TMDB, Google Books, Jokes e geração de imagens via Cloudflare Worker (SDXL, Lightning, DreamShaper)
-- **Interface totalmente customizável** — temas, transparência de widgets, fullscreen, modos de borda animados, desacoplamento de input e overlay de avatares
+### LLM local
+- Inferência via **llama.cpp**, compatível com a maioria dos modelos GGUF
+- **Memória persistente** auto-incrementável pelo próprio modelo e editável pelo usuário
+- Detecção automática de formato de chat e leitura de metadados do modelo
+
+### Síntese de voz (TTS)
+- Três engines com interface unificada: **Supertonic 3**, **Kokoro** e **StyleTTS2**
+- **Clonagem de voz** via StyleTTS2
+- Pipeline **RVC** aplicável a qualquer voz sintetizada
+
+### Visão e OCR
+- Análise de imagens enviadas pelo usuário via **SmolVLM2**
+- Captura automática de screenshot da tela para enriquecimento de contexto do LLM
+
+### Avatares interativos
+- **2D** — imagens estáticas e GIFs com animações e expressões
+- **Live2D** — hit areas, overlay, animações, expressões e suporte a vozes por avatar
+- **VRM 3D** — lipsync sincronizado ao áudio TTS, auto-blink, carregamento de arquivos `.glb`; environment map via arquivos `.hdr` e `.exr`; parâmetros de iluminação de ambiente configuráveis
+
+> Runtime dos avatares Live2D e VRM executado via JavaScript embarcado (Three.js + Cubism SDK); restante do backend em Python puro.
+
+### APIs externas integradas
+WorldTime · OpenWeather · Wikipedia · TMDB · Google Books · Jokes · **Cloudflare Workers AI** (geração de imagens com SDXL, Lightning e Dreamshaper)
+
+### Interface totalmente customizável
+- Inclusão de imagens e GIFs personalizados
+- Modos animados de borda e transparência por widget
+- Fullscreen, desacoplamento de input e overlay de avatares Live2D/VRM
+- Sistema de temas configurável
 
 ---
 
 ## Arquitetura
 
-A plataforma é organizada em cinco camadas independentes:
-
 ```
 Interface PySide6
-    └── LLM local (llama.cpp · modelos GGUF)
-            └── TTS Engine (Supertonic 2 · Kokoro · StyleTTS2 · RVC)
+    └── LLM local (llama.cpp · modelos GGUF · SmolVLM2)
+            └── TTS Engine (Supertonic 3 · Kokoro · StyleTTS2 · RVC)
                     └── Motor de avatar (2D · Live2D · VRM)
                             └── APIs externas (dados · geração de imagens)
 ```
-<img width="2125" height="2875" alt="castorp_arquitetura_geral" src="https://github.com/user-attachments/assets/5ae307a5-2bb9-4e42-ba89-9bcd5dd54261" />
 
-> Runtime dos avatares Live2D e VRM executado via JavaScript embarcado; restante do backend em Python.
+<img width="2125" height="2875" alt="castorp_arquitetura_geral" src="https://github.com/user-attachments/assets/5ae307a5-2bb9-4e42-ba89-9bcd5dd54261" />
 
 ---
 
 ## Diagramas de código
 
-Os diagramas abaixo foram gerados automaticamente com [code2flow](https://github.com/scottrogowski/code2flow) a partir do código-fonte.
+Gerados automaticamente com [code2flow](https://github.com/scottrogowski/code2flow) a partir do código-fonte.
 
 ### AgentWorker — fluxo principal do agente
-
 Ponto de entrada da plataforma. Orquestra eventos, OCR, memória, TTS e gatilhos autônomos.
 
 <img width="1640" height="827" alt="agent_worker" src="https://github.com/user-attachments/assets/289da369-fe8d-42eb-a696-9080126c4d7c" />
 
 ### TTS Engine — síntese de voz
-
-Três engines de TTS com interfaces unificadas. `SupertonicTTSEngine`, `StyleTTS2Engine` e `KokoroTTSEngine` compartilham o mesmo contrato de API interna.
+`SupertonicTTSEngine`, `StyleTTS2Engine` e `KokoroTTSEngine` com interface interna unificada.
 
 <img width="1282" height="1552" alt="tts_engine" src="https://github.com/user-attachments/assets/7852961a-97f9-4f0c-86ec-0d3448c79897" />
 
 ### LLM Loader — carregamento do modelo
-
-Pipeline de carregamento de modelos GGUF: detecção de formato de chat, leitura de metadados e validação de templates.
+Pipeline de carregamento GGUF: detecção de formato de chat, leitura de metadados e validação de templates.
 
 <img width="1429" height="360" alt="llm_loader" src="https://github.com/user-attachments/assets/89b02d8d-8819-40d6-8869-2e47c1b6fbbb" />
 
 ### LLM Inference — inferência e streaming
-
-Classe `AgentLenaInference` responsável por geração de texto, síntese em streaming e carregamento dinâmico do engine de TTS.
+Classe `AgentLenaInference`: geração de texto, síntese em streaming e carregamento dinâmico do engine TTS.
 
 <img width="974" height="784" alt="llm_inference" src="https://github.com/user-attachments/assets/5174f979-3dd5-40c1-8e7e-a7f683d26e09" />
-
 
 ---
 
@@ -85,8 +102,9 @@ Classe `AgentLenaInference` responsável por geração de texto, síntese em str
 | Camada | Tecnologias |
 |---|---|
 | Interface | PySide6 |
-| LLM | llama.cpp, modelos GGUF, SmolVLM |
-| Voz | Supertonic 2, Kokoro, StyleTTS2, RVC |
-| Avatares | Live2D Cubism SDK, VRM, Three.js (runtime JS) |
-| APIs | WorldTime, OpenWeather, TMDB, Wikipedia, Google Books, Cloudflare Workers AI |
+| LLM | llama.cpp (GGUF), SmolVLM2 |
+| Voz | Supertonic 3, Kokoro, StyleTTS2, RVC |
+| Avatares | Live2D Cubism SDK, VRM, Three.js |
+| Visão | SmolVLM2 (OCR + análise de imagem) |
+| APIs externas | WorldTime, OpenWeather, TMDB, Wikipedia, Google Books, Cloudflare Workers AI |
 | Backend | Python 3.11 |
