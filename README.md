@@ -74,13 +74,13 @@ Três engines de TTS com interfaces unificadas. `SupertonicTTSEngine`, `StyleTTS
 
 Pipeline de carregamento de modelos GGUF: detecção de formato de chat, leitura de metadados e validação de templates.
 
-![LLM Loader](<img width="1429" height="360" alt="llm_loader" src="https://github.com/user-attachments/assets/89b02d8d-8819-40d6-8869-2e47c1b6fbbb" />)
+![LLM Loader]<img width="1429" height="360" alt="llm_loader" src="https://github.com/user-attachments/assets/89b02d8d-8819-40d6-8869-2e47c1b6fbbb" />
 
 ### LLM Inference — inferência e streaming
 
 Classe `AgentLenaInference` responsável por geração de texto, síntese em streaming e carregamento dinâmico do engine de TTS.
 
-![LLM Inference](<img width="974" height="784" alt="llm_inference" src="https://github.com/user-attachments/assets/5174f979-3dd5-40c1-8e7e-a7f683d26e09" />)
+![LLM Inference]<img width="974" height="784" alt="llm_inference" src="https://github.com/user-attachments/assets/5174f979-3dd5-40c1-8e7e-a7f683d26e09" />
 
 
 ---
